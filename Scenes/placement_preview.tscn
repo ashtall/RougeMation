@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfmvfb480ig8j"]
+
+[ext_resource type="Script" path="res://Scripts/placement_preview.gd" id="1_0b64c"]
+[ext_resource type="ArrayMesh" uid="uid://bhdkgf02brgcn" path="res://models/placement_preview.vox" id="2_najdo"]
+
+[node name="placement_preview" type="Node3D"]
+script = ExtResource("1_0b64c")
+
+[node name="PlacementPreview" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_najdo")

@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://81m458t2o3f"]
+
+[ext_resource type="ArrayMesh" uid="uid://dwkujijbjq4kc" path="res://models/ground.vox" id="1_tsie2"]
+[ext_resource type="PackedScene" uid="uid://trn0eyfxry10" path="res://Scenes/player.tscn" id="2_a7krd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1lswt"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_1qp40"]
+sky_material = SubResource("ProceduralSkyMaterial_1lswt")
+
+[sub_resource type="Environment" id="Environment_2jxm2"]
+background_color = Color(0.0901961, 0.584314, 0.811765, 1)
+sky = SubResource("Sky_1qp40")
+tonemap_mode = 2
+ssr_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_w8n4q"]
+data = PackedVector3Array(-6.2, 0.2, -6.2, 6.2, 0.2, -6.2, 6.2, 0.2, 6.2, 6.2, 0.2, 6.2, -6.2, 0.2, 6.2, -6.2, 0.2, -6.2, -6.4, 0.8, -6.4, -6.2, 0.8, -6.4, -6.2, 0.8, 6.4, -6.2, 0.8, 6.4, -6.4, 0.8, 6.4, -6.4, 0.8, -6.4, -6.2, 0.8, 6.2, 6.4, 0.8, 6.2, 6.4, 0.8, 6.4, 6.4, 0.8, 6.4, -6.2, 0.8, 6.4, -6.2, 0.8, 6.2, -6.2, 0.8, -6.4, 6.4, 0.8, -6.4, 6.4, 0.8, -6.2, 6.4, 0.8, -6.2, -6.2, 0.8, -6.2, -6.2, 0.8, -6.4, 6.2, 0.8, -6.2, 6.4, 0.8, -6.2, 6.4, 0.8, 6.2, 6.4, 0.8, 6.2, 6.2, 0.8, 6.2, 6.2, 0.8, -6.2, 6.4, 0, 6.4, 6.4, 0, -6.4, -6.4, 0, -6.4, -6.4, 0, -6.4, -6.4, 0, 6.4, 6.4, 0, 6.4, -6.4, 0.8, -6.4, -6.4, 0.8, 6.4, -6.4, 0, 6.4, -6.4, 0, 6.4, -6.4, 0, -6.4, -6.4, 0.8, -6.4, 6.2, 0.8, -6.2, 6.2, 0.8, 6.2, 6.2, 0.2, 6.2, 6.2, 0.2, 6.2, 6.2, 0.2, -6.2, 6.2, 0.8, -6.2, -6.2, 0.8, -6.2, -6.2, 0.2, -6.2, -6.2, 0.2, 6.2, -6.2, 0.2, 6.2, -6.2, 0.8, 6.2, -6.2, 0.8, -6.2, 6.4, 0.8, -6.4, 6.4, 0, -6.4, 6.4, 0, 6.4, 6.4, 0, 6.4, 6.4, 0.8, 6.4, 6.4, 0.8, -6.4, -6.4, 0, 6.4, -6.4, 0.8, 6.4, 6.4, 0.8, 6.4, 6.4, 0.8, 6.4, 6.4, 0, 6.4, -6.4, 0, 6.4, -6.2, 0.2, -6.2, -6.2, 0.8, -6.2, 6.2, 0.8, -6.2, 6.2, 0.8, -6.2, 6.2, 0.2, -6.2, -6.2, 0.2, -6.2, 6.2, 0.8, 6.2, -6.2, 0.8, 6.2, -6.2, 0.2, 6.2, -6.2, 0.2, 6.2, 6.2, 0.2, 6.2, 6.2, 0.8, 6.2, 6.4, 0.8, -6.4, -6.4, 0.8, -6.4, -6.4, 0, -6.4, -6.4, 0, -6.4, 6.4, 0, -6.4, 6.4, 0.8, -6.4)
+
+[node name="test" type="Node3D"]
+
+[node name="env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="env"]
+environment = SubResource("Environment_2jxm2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = ExtResource("1_tsie2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_w8n4q")
+
+[node name="Player" parent="." instance=ExtResource("2_a7krd")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.4, 0)
+
+[node name="Camera3D" parent="Player" index="1"]
+transform = Transform3D(1.24829, 0.0331047, -0.0564255, 0, 1.07814, 0.632543, 0.0654199, -0.631676, 1.07666, -1.33979, 30.447, 52.393)
+fov = 37.4
+size = 18.011
+
+[node name="direction_facing" parent="Player" index="3"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.748, 0)
+
+[node name="Items" type="Node3D" parent="."]
+
+[editable path="Player"]

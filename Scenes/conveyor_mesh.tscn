@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://xk03mar4qj1l"]
+
+[ext_resource type="ArrayMesh" uid="uid://cgm8j6as4gftp" path="res://models/conveyor.vox" id="1_vpxrh"]
+
+[node name="Conveyor" type="MeshInstance3D"]
+mesh = ExtResource("1_vpxrh")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxethtdvx7dfl"]
+
+[ext_resource type="ArrayMesh" uid="uid://cxbn3n778o7ow" path="res://models/corner_left_conveyor.vox" id="1_cvryy"]
+
+[node name="CornerLeftConveyor" type="MeshInstance3D"]
+mesh = ExtResource("1_cvryy")

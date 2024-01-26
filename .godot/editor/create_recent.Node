@@ -1,0 +1,7 @@
+Label3D
+Label
+CSGBox3D
+Node3D
+CharacterBody3D
+Camera3D
+StaticBody3D

@@ -1,7 +1,8 @@
 [gd_resource type="Resource" script_class="player_inventory" load_steps=2 format=3 uid="uid://d4gyhrpyb8idv"]
 
-[ext_resource type="Script" path="res://Scripts/inventory_count.gd" id="1_hlsf6"]
+[ext_resource type="Script" path="res://Scripts/resources/inventory_count.gd" id="1_ehrsf"]
 
 [resource]
-script = ExtResource("1_hlsf6")
+script = ExtResource("1_ehrsf")
 conveyor = 1000
+extractor = 1000

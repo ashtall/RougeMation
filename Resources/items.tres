@@ -1,8 +1,14 @@
-[gd_resource type="Resource" script_class="items" load_steps=3 format=3 uid="uid://dg8t1ckb8rio"]
+[gd_resource type="Resource" script_class="item_scenes" load_steps=6 format=3 uid="uid://dg8t1ckb8rio"]
 
-[ext_resource type="Script" path="res://Scripts/item_scenes.gd" id="1_i8f48"]
+[ext_resource type="Script" path="res://Scripts/resources/item_scenes.gd" id="1_i8f48"]
 [ext_resource type="PackedScene" uid="uid://di0llgji5ss1e" path="res://Scenes/conveyor.tscn" id="1_m21ea"]
+[ext_resource type="PackedScene" uid="uid://bxethtdvx7dfl" path="res://Scenes/corner_left_conveyor_mesh.tscn" id="2_fj85w"]
+[ext_resource type="PackedScene" uid="uid://b3m57a7oinapi" path="res://Scenes/corner_right_conveyor_mesh.tscn" id="3_ypm8u"]
+[ext_resource type="PackedScene" uid="uid://74ikm8kdqooc" path="res://Scenes/extractor.tscn" id="4_7whvm"]
 
 [resource]
 script = ExtResource("1_i8f48")
 conveyor = ExtResource("1_m21ea")
+corner_left_conveyor = ExtResource("2_fj85w")
+corner_right_conveyor = ExtResource("3_ypm8u")
+extractor = ExtResource("4_7whvm")

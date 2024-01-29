@@ -1,1 +1,10 @@
-res://Scripts/Player.gd
+res://Scripts/player/inventory.gd
+res://Scenes/test.tscn
+res://Resources/items.tres
+res://Scenes/player.tscn
+res://Scenes/conveyor.tscn
+res://Scenes/extractor.tscn
+res://Scenes/iron_ingot.tscn
+res://Scenes/corner_right_conveyor_mesh.tscn
+res://Resources/player_inventory.tres
+res://Scripts/resources/inventory_count.gd

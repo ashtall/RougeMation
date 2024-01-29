@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 @onready var placement_preview_mesh = preload("res://Scenes/placement_preview.tscn")
+@onready var inven = $Pivot/Inventory
 
 @export var inventory: player_inventory
 @export var itemscenes: item_scenes
@@ -12,6 +13,7 @@ var target_velocity = Vector3.ZERO
 var target_rotation: Transform3D
 var placement_mesh_instance
 var can_place = true
+
 
 func _ready():
 	placement_mesh_instance = placement_preview_mesh.instantiate()
@@ -41,48 +43,46 @@ func _physics_process(_delta):
 	move_and_slide()
 
 
-func _input(_event):
-	#if event.is_action_pressed("place"):
-	#place("conveyor")
-	#if event.is_action_pressed('remove'):
-	#remove()
-	pass
-
-
 func _process(_delta):
 	if Input.is_action_pressed("remove"):
-		remove()
+		remove(placement_mesh_instance.placement_pos)
 	if Input.is_action_pressed("place") and can_place:
-		place("conveyor")
+		place(inven.get_current_item())
 
 
 func place(place_item):
-	print(5)
 	can_place = false
 	if inventory[place_item] > 0:
 		inventory[place_item] -= 1
+		inven.inven_changed.emit()
 		var instance = itemscenes[place_item].instantiate()
-		instance.setRotation($Pivot.rotation_degrees.snapped(Vector3(0, 90, 0)) + Vector3(0, 90, 0))
+		instance.get_node("Pivot").rotation_degrees = (
+			$Pivot.rotation_degrees.snapped(Vector3(0, 90, 0)) + Vector3(0, 90, 0)
+		)
 		get_node("../Items").add_child(instance)
 		if Autoload.items_in_world.has(placement_mesh_instance.placement_pos):
-			if Autoload.items_in_world[placement_mesh_instance.placement_pos]["name"] == "conveyor":
+			if Autoload.items_in_world[placement_mesh_instance.placement_pos]["name"] == "conveyor" and place_item == 'conveyor':
 				instance.position = get_last_conveyor_pos(instance)
 			else:
-				remove()
-				inventory[place_item] += 1
+				var item_name = remove(placement_mesh_instance.placement_pos)
+				inventory[item_name] += 1
+				inven.inven_changed.emit()
 				instance.position = placement_mesh_instance.placement_pos
 		else:
 			instance.position = placement_mesh_instance.placement_pos
-		Autoload.items_in_world[instance.position] = {
-			"name": place_item, "instance": instance
-		}
+		Autoload.items_in_world[instance.position] = {"name": place_item, "instance": instance}
 		await get_tree().create_timer(place_cooldown).timeout
 		can_place = true
 
-func remove():
-	if Autoload.items_in_world.has(placement_mesh_instance.placement_pos):
-		Autoload.items_in_world[placement_mesh_instance.placement_pos]["instance"].queue_free()
-		Autoload.items_in_world.erase(placement_mesh_instance.placement_pos)
+
+func remove(pos):
+	var item_name
+	if Autoload.items_in_world.has(pos):
+		item_name = Autoload.items_in_world[pos]["name"]
+		Autoload.items_in_world[pos]["instance"].queue_free()
+		Autoload.items_in_world.erase(pos)
+	return item_name
+
 
 func get_last_conveyor_pos(instance):
 	var item_positions = Autoload.items_in_world
@@ -90,15 +90,11 @@ func get_last_conveyor_pos(instance):
 	var last_pos
 	var dir = instance.direction_facing
 	while true:
-		print(1, dir, 1)
 		match dir:
 			"up":
-				print(2)
 				if item_positions.has(placement_pos + Vector3(0, 0, -1)):
-					print("yo")
 					placement_pos = placement_pos + Vector3(0, 0, -1)
 				else:
-					print("done")
 					last_pos = placement_pos + Vector3(0, 0, -1)
 			"down":
 				if item_positions.has(placement_pos + Vector3(0, 0, 1)):
@@ -116,8 +112,5 @@ func get_last_conveyor_pos(instance):
 				else:
 					last_pos = placement_pos + Vector3(1, 0, 0)
 		if last_pos != null:
-			# var temp = placement_preview_mesh.instantiate()
-			# get_node("../Items").add_child(temp)
-			# temp.position = last_pos
 			break
 	return last_pos

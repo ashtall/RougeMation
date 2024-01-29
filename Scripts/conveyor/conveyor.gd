@@ -32,19 +32,15 @@ func tell_perpendicular_conveyors_to_update_behind():
 			"up":
 				if adjacent_conveyors[0]:
 					adjacent_conveyors[0].update_behind_conveyor()
-					print("up")
 			"down":
 				if adjacent_conveyors[1]:
 					adjacent_conveyors[1].update_behind_conveyor()
-					print("down")
 			"left":
 				if adjacent_conveyors[2]:
 					adjacent_conveyors[2].update_behind_conveyor()
-					print("left")
 			"right":
 				if adjacent_conveyors[3]:
 					adjacent_conveyors[3].update_behind_conveyor()
-					print("right")
 
 
 func update_behind_conveyor():

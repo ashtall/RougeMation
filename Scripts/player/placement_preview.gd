@@ -9,3 +9,7 @@ func _process(_delta):
 	position = target_pos
 	placement_pos = snapped(global_position, Vector3(step, 0, step))
 	global_position = placement_pos
+	if Autoload.items_in_world.has(placement_pos):
+		visible = false
+	else:
+		visible = true

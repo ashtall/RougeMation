@@ -35,7 +35,7 @@ directional_shadow_fade_start = 0.369
 directional_shadow_max_distance = 0.0
 
 [node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.388, 0)
 mesh = ExtResource("1_tsie2")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
@@ -43,18 +43,6 @@ mesh = ExtResource("1_tsie2")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_w8n4q")
 
-[node name="Player" parent="." instance=ExtResource("2_a7krd")]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.4, 0)
-
-[node name="Camera3D" parent="Player" index="1"]
-transform = Transform3D(1.24829, 0.0331047, -0.0564255, 0, 1.07814, 0.632543, 0.0654199, -0.631676, 1.07666, -1.33979, 30.447, 52.393)
-fov = 37.8493
-size = 18.011
-far = 400.0
-
-[node name="direction_facing" parent="Player" index="3"]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.748, 0)
-
 [node name="Items" type="Node3D" parent="."]
 
-[editable path="Player"]
+[node name="Player" parent="." instance=ExtResource("2_a7krd")]

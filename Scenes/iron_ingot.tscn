@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmdltxc53lr0e"]
+
+[ext_resource type="ArrayMesh" uid="uid://ekdxo2n3owln" path="res://models/iron_ingot.vox" id="1_ba8s8"]
+
+[node name="iron_ingot" type="Node3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="IronIngot" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_ba8s8")

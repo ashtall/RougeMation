@@ -1,23 +1,21 @@
 extends Node3D
 
-@onready var conveyor = preload("res://Scenes/conveyor_mesh.tscn")
-@onready var corner_left_conveyor = preload("res://Scenes/corner_left_conveyor_mesh.tscn")
-@onready var corner_right_conveyor = preload("res://Scenes/corner_right_conveyor_mesh.tscn")
-@onready var label = $Label3D
+@onready var label: Label3D = $Label3D
 
 @export var item: item_data
-@export var direction_facing: String
+@export var itemScenes: conveyor_scenes
+var direction_facing
+var resources_on_conveyor = []
+var conveyor_speed = .5
+var resource_limit = 2
+var can_input
+var can_output = true
 var directions_can_connect = []
 var adjacent_conveyors = []
-var input_conveyor
-var output_conveyor
-var input_dir
-var output_dir
 
 
 func _ready():
 	get_direction_facing()
-	label.text = direction_facing
 	directions_can_connect = get_directions_can_connect()
 	update_behind_conveyor()
 	adjacent_conveyors = get_adjacent_conveyors()
@@ -25,6 +23,40 @@ func _ready():
 		if i:
 			i.get_adjacent_conveyors()
 	tell_perpendicular_conveyors_to_update_behind()
+	name = "Conveyor " + str(Autoload.conveyor_id)
+	Autoload.conveyor_id += 1
+
+
+func _process(_delta):
+	if resources_on_conveyor.size() >= resource_limit:
+		can_input = false
+	else:
+		can_input = true
+	if resources_on_conveyor and can_output:
+		can_output = false
+		give_resource()
+	set_debug_resources()
+
+
+func set_debug_resources():
+	label.text = str(can_input) + str(resources_on_conveyor.size()) + "\n"
+	for i in resources_on_conveyor:
+		if i:
+			label.text += i + "\n"
+
+
+func give_resource():
+	if get_next_item(direction_facing):
+		if get_next_item(direction_facing)["name"] == "conveyor":
+			await get_tree().create_timer(conveyor_speed).timeout
+			var conveyor = get_next_item(direction_facing)
+			if conveyor["instance"].can_input:
+				var resource = resources_on_conveyor.pop_front()
+				if resource:
+					conveyor["instance"].resources_on_conveyor.append(resource)
+					can_output = true
+				print(str(resources_on_conveyor) + " " + name)
+
 
 func tell_perpendicular_conveyors_to_update_behind():
 	for i in directions_can_connect:
@@ -152,28 +184,44 @@ func get_directions_can_connect():
 	match direction_facing:
 		"left":
 			return {
-				"up": {"mesh": corner_right_conveyor, "rotate": 90},
-				"down": {"mesh": corner_left_conveyor, "rotate": 90}
+				"up": {"mesh": itemScenes["corner_right_conveyor"], "rotate": 90},
+				"down": {"mesh": itemScenes["corner_left_conveyor"], "rotate": 90}
 			}
 		"right":
 			return {
-				"up": {"mesh": corner_left_conveyor, "rotate": 270},
-				"down": {"mesh": corner_right_conveyor, "rotate": 270}
+				"up": {"mesh": itemScenes["corner_left_conveyor"], "rotate": 270},
+				"down": {"mesh": itemScenes["corner_right_conveyor"], "rotate": 270}
 			}
 		"up":
 			return {
-				"left": {"mesh": corner_left_conveyor, "rotate": 0},
-				"right": {"mesh": corner_right_conveyor, "rotate": 0}
+				"left": {"mesh": itemScenes["corner_left_conveyor"], "rotate": 0},
+				"right": {"mesh": itemScenes["corner_right_conveyor"], "rotate": 0}
 			}
 		"down":
 			return {
-				"left": {"mesh": corner_right_conveyor, "rotate": 180},
-				"right": {"mesh": corner_left_conveyor, "rotate": 180}
+				"left": {"mesh": itemScenes["corner_right_conveyor"], "rotate": 180},
+				"right": {"mesh": itemScenes["corner_left_conveyor"], "rotate": 180}
 			}
 
 
 func setRotation(angle: Vector3):
 	get_node("Pivot").rotation_degrees = angle
+
+
+func get_next_item(direction):
+	match direction:
+		"up":
+			if Autoload.items_in_world.has(position - Vector3(0, 0, 1)):
+				return Autoload.items_in_world[position - Vector3(0, 0, 1)]
+		"down":
+			if Autoload.items_in_world.has(position + Vector3(0, 0, 1)):
+				return Autoload.items_in_world[position + Vector3(0, 0, 1)]
+		"left":
+			if Autoload.items_in_world.has(position - Vector3(1, 0, 0)):
+				return Autoload.items_in_world[position - Vector3(1, 0, 0)]
+		"right":
+			if Autoload.items_in_world.has(position + Vector3(1, 0, 0)):
+				return Autoload.items_in_world[position + Vector3(1, 0, 0)]
 
 
 func get_adjacent_conveyors():

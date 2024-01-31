@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="resource_scenes" load_steps=3 format=3 uid="uid://dpidw8l3nalkn"]
+
+[ext_resource type="PackedScene" uid="uid://bmdltxc53lr0e" path="res://Scenes/iron_ingot.tscn" id="1_i2p06"]
+[ext_resource type="Script" path="res://Scripts/resources/resource_scenes.gd" id="2_f0g2n"]
+
+[resource]
+script = ExtResource("2_f0g2n")
+iron_ingot = ExtResource("1_i2p06")

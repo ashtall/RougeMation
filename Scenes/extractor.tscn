@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://74ikm8kdqooc"]
+[gd_scene load_steps=3 format=3 uid="uid://74ikm8kdqooc"]
 
 [ext_resource type="ArrayMesh" uid="uid://bxpv71nrhlv1c" path="res://models/extractor.vox" id="1_qr8cl"]
 [ext_resource type="Script" path="res://Scripts/extractor/extractor.gd" id="1_xc2sx"]
-[ext_resource type="PackedScene" uid="uid://bmdltxc53lr0e" path="res://Scenes/iron_ingot.tscn" id="3_prj2i"]
 
 [node name="Extractor" type="Node3D"]
 script = ExtResource("1_xc2sx")
@@ -16,5 +15,3 @@ skeleton = NodePath("../..")
 
 [node name="output_point" type="Node3D" parent="Pivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
-
-[node name="iron_ingot" parent="Pivot/output_point" instance=ExtResource("3_prj2i")]

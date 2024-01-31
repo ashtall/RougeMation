@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="conveyor_scenes" load_steps=5 format=3 uid="uid://cwokal7lp6q6p"]
+
+[ext_resource type="Script" path="res://Scripts/resources/conveyor_scenes.gd" id="1_jk5w1"]
+[ext_resource type="PackedScene" uid="uid://xk03mar4qj1l" path="res://Scenes/conveyor_mesh.tscn" id="1_yc24t"]
+[ext_resource type="PackedScene" uid="uid://bxethtdvx7dfl" path="res://Scenes/corner_left_conveyor_mesh.tscn" id="2_ctcdo"]
+[ext_resource type="PackedScene" uid="uid://b3m57a7oinapi" path="res://Scenes/corner_right_conveyor_mesh.tscn" id="3_5qtsd"]
+
+[resource]
+script = ExtResource("1_jk5w1")
+conveyor = ExtResource("1_yc24t")
+corner_left_conveyor = ExtResource("2_ctcdo")
+corner_right_conveyor = ExtResource("3_5qtsd")

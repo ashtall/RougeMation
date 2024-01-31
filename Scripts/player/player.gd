@@ -61,8 +61,24 @@ func place(place_item):
 		)
 		get_node("../Items").add_child(instance)
 		if Autoload.items_in_world.has(placement_mesh_instance.placement_pos):
-			if Autoload.items_in_world[placement_mesh_instance.placement_pos]["name"] == "conveyor" and place_item == 'conveyor':
-				instance.position = get_last_conveyor_pos(instance)
+			if (
+				Autoload.items_in_world[placement_mesh_instance.placement_pos]["name"] == "conveyor"
+				and place_item == "conveyor"
+			):
+				if (
+					(
+						Autoload
+						. items_in_world[placement_mesh_instance.placement_pos]["instance"]
+						. direction_facing
+					)
+					== instance.direction_facing
+				):
+					instance.position = get_last_conveyor_pos(instance)
+				else:
+					var item_name = remove(placement_mesh_instance.placement_pos)
+					inventory[item_name] += 1
+					inven.inven_changed.emit()
+					instance.position = placement_mesh_instance.placement_pos
 			else:
 				var item_name = remove(placement_mesh_instance.placement_pos)
 				inventory[item_name] += 1

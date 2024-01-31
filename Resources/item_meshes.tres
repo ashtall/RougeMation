@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="item_meshes" load_steps=4 format=3 uid="uid://dg517xpct3hs3"]
+
+[ext_resource type="PackedScene" uid="uid://xk03mar4qj1l" path="res://Scenes/conveyor_mesh.tscn" id="1_foxrq"]
+[ext_resource type="Script" path="res://Scripts/resources/item_meshes.gd" id="1_plqmq"]
+[ext_resource type="PackedScene" uid="uid://vo5ymryjkrex" path="res://Scenes/extractor_mesh.tscn" id="2_t0ke8"]
+
+[resource]
+script = ExtResource("1_plqmq")
+conveyor = ExtResource("1_foxrq")
+extractor = ExtResource("2_t0ke8")

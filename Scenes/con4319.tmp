@@ -16,6 +16,4 @@ itemScenes = ExtResource("3_kc7sa")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.629754, 0.776794, 0, -0.776794, 0.629754, 0, 0.768547, 0)
-outline_modulate = Color(0, 0, 0, 0)
-text = " 	"
-font_size = 49
+font_size = 74

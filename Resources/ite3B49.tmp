@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dg517xpct3hs3"]
+
+[ext_resource type="Script" path="res://Scripts/resources/item_meshes.gd" id="1_plqmq"]
+
+[resource]
+script = ExtResource("1_plqmq")

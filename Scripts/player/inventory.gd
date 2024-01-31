@@ -1,7 +1,8 @@
 extends Node3D
 
 @export var inven: player_inventory
-@export var itemscenes: item_scenes
+@export var itemscenes: item_meshes
+
 @onready var displaypoint = $Display_item
 var real_inven
 var display_inven_dic = {}
@@ -36,10 +37,8 @@ func set_display_inven_dic():
 	display_inven_dic.clear()
 	for i in real_inven:
 		if real_inven[i] > 0:
-			print(real_inven[i])
 			display_inven_dic[i] = real_inven[i]
 			display_inven_arr.append(i)
-	print(display_inven_dic)
 	display_item()
 
 
@@ -64,7 +63,6 @@ func display_item():
 		i.queue_free()
 	if display_inven_dic.size() != 0:
 		var item = itemscenes[display_inven_arr[current_item_index]].instantiate()
-		item.rotation_degrees = Vector3(0, 90, 0)
 		displaypoint.add_child(item)
 
 

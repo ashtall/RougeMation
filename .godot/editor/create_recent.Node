@@ -1,8 +1,9 @@
-Node3D
+MeshInstance3D
 CSGBox3D
+StaticBody3D
+Node3D
 Sprite3D
 Label3D
 Label
 CharacterBody3D
 Camera3D
-StaticBody3D

@@ -1,1 +1,3 @@
-items
+item_meshes
+conveyor_scenes
+resource_scenes

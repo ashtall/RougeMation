@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://Scripts/conveyor/conveyor.gd" id="1_j6fs6"]
 [ext_resource type="Resource" uid="uid://dh44u71vn3vnd" path="res://Resources/conveyor.tres" id="2_dhri3"]
-[ext_resource type="Resource" uid="uid://cwokal7lp6q6p" path="res://Resources/conveyor_scenes.tres" id="3_kc7sa"]
+[ext_resource type="Resource" uid="uid://dg8t1ckb8rio" path="res://Resources/item_scenes.tres" id="3_3ejmo"]
 [ext_resource type="PackedScene" uid="uid://xk03mar4qj1l" path="res://Scenes/conveyor_mesh.tscn" id="3_u2v5u"]
 
 [node name="Conveyor" type="Node3D"]
 script = ExtResource("1_j6fs6")
 item = ExtResource("2_dhri3")
-itemScenes = ExtResource("3_kc7sa")
+itemScenes = ExtResource("3_3ejmo")
 
 [node name="Pivot" type="Node3D" parent="."]
 
@@ -16,6 +16,4 @@ itemScenes = ExtResource("3_kc7sa")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.629754, 0.776794, 0, -0.776794, 0.629754, 0, 0.768547, 0)
-outline_modulate = Color(0, 0, 0, 0)
-text = " 	"
-font_size = 49
+font_size = 74

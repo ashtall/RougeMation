@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="item_scenes" load_steps=4 format=3 uid="uid://dg8t1ckb8rio"]
+
+[ext_resource type="Script" path="res://Scripts/resources/item_scenes.gd" id="1_i8f48"]
+[ext_resource type="PackedScene" uid="uid://di0llgji5ss1e" path="res://Scenes/conveyor.tscn" id="1_m21ea"]
+[ext_resource type="PackedScene" uid="uid://74ikm8kdqooc" path="res://Scenes/extractor.tscn" id="4_7whvm"]
+
+[resource]
+script = ExtResource("1_i8f48")
+conveyor = ExtResource("1_m21ea")
+extractor = ExtResource("4_7whvm")

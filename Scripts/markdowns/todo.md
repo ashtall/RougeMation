@@ -1,16 +1,19 @@
 # Todo
 
----
-
 ## I
 
+- [ ] terrain generation
 - [ ] extractor
 - [ ] conveyor working
 
 ## II
 
+- [ ] fix player place logic
+
 ## III
+
 - [ ] inventory display
+- [ ] test switching with multiple items
 
 ## future
 
@@ -23,10 +26,11 @@
 - [ ] fix auto place conveyors directions
 - [ ] local multiplayer
 - [ ] when extractor replaces conveyor current item becomes conveyor
+- [ ] get_direction_facing in autoload
 
 ## reminders
 
-- [ ] update extractor vox conveyor color
+- [x] update extractor vox conveyor color
 
 ## done
 
@@ -35,4 +39,3 @@
 - [x] auto conveyor placement
 - [x] start git
 - [x] inventory system
-

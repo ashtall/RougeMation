@@ -40,6 +40,7 @@ func set_display_inven_dic():
 			display_inven_dic[i] = real_inven[i]
 			display_inven_arr.append(i)
 	display_item()
+	print(inven.inventory)
 
 
 func switch_item_left():

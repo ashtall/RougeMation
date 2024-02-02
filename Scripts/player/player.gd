@@ -9,6 +9,8 @@ extends CharacterBody3D
 @export var rotation_speed = 10
 @export var place_cooldown = .1
 
+var items_in_world = Autoload.items_in_world
+
 var target_velocity = Vector3.ZERO
 var target_rotation: Transform3D
 var placement_mesh_instance
@@ -50,83 +52,115 @@ func _process(_delta):
 		place(inven.get_current_item())
 
 
+func remove(pos):
+	var item_name
+	if items_in_world.has(pos):
+		item_name = items_in_world[pos]["name"]
+		items_in_world[pos]["instance"].queue_free()
+		items_in_world.erase(pos)
+	return item_name
+
+
 func place(place_item):
 	can_place = false
 	if inventory[place_item] > 0:
 		inventory[place_item] -= 1
 		inven.inven_changed.emit()
-		var instance = itemscenes[place_item].instantiate()
-		instance.get_node("Pivot").rotation_degrees = (
-			$Pivot.rotation_degrees.snapped(Vector3(0, 90, 0)) + Vector3(0, 90, 0)
-		)
-		get_node("../Items").add_child(instance)
-		if Autoload.items_in_world.has(placement_mesh_instance.placement_pos):
-			if (
-				Autoload.items_in_world[placement_mesh_instance.placement_pos]["name"] == "conveyor"
-				and place_item == "conveyor"
-			):
-				if (
-					(
-						Autoload
-						. items_in_world[placement_mesh_instance.placement_pos]["instance"]
-						. direction_facing
-					)
-					== instance.direction_facing
-				):
-					instance.position = get_last_conveyor_pos(instance)
+		var pos = placement_mesh_instance.placement_pos
+		var rot = $Pivot.rotation_degrees.snapped(Vector3(0, 90, 0)) + Vector3(0, 90, 0)
+		var dir = Autoload.get_direction_facing(rot)
+		if items_in_world.has(pos):
+			var item = items_in_world[pos]
+			if item["name"] == "conveyor" and place_item == "conveyor":
+				if item["instance"].direction_facing == dir:
+					print("end")
+					print(pos, dir, rot, place_item)
+					place_at_end(pos, dir, rot, place_item)
 				else:
-					var item_name = remove(placement_mesh_instance.placement_pos)
-					inventory[item_name] += 1
-					inven.inven_changed.emit()
-					instance.position = placement_mesh_instance.placement_pos
+					print("replace1")
+					replace_instance(pos, rot, place_item)
 			else:
-				var item_name = remove(placement_mesh_instance.placement_pos)
-				inventory[item_name] += 1
-				inven.inven_changed.emit()
-				instance.position = placement_mesh_instance.placement_pos
+				print("replace2")
+				replace_instance(pos, rot, place_item)
 		else:
-			instance.position = placement_mesh_instance.placement_pos
-		Autoload.items_in_world[instance.position] = {"name": place_item, "instance": instance}
-		await get_tree().create_timer(place_cooldown).timeout
-		can_place = true
+			print("new")
+			create_instance(pos, rot, place_item)
+	await get_tree().create_timer(place_cooldown).timeout
+	can_place = true
 
 
-func remove(pos):
-	var item_name
-	if Autoload.items_in_world.has(pos):
-		item_name = Autoload.items_in_world[pos]["name"]
-		Autoload.items_in_world[pos]["instance"].queue_free()
-		Autoload.items_in_world.erase(pos)
-	return item_name
+func replace_instance(pos, rot, place_item):
+	print("replace")
+	var item_name = remove(pos)
+	create_instance(pos, rot, place_item)
+	inventory[item_name] += 1
+	inven.inven_changed.emit()
 
 
-func get_last_conveyor_pos(instance):
-	var item_positions = Autoload.items_in_world
-	var placement_pos = placement_mesh_instance.placement_pos
-	var last_pos
-	var dir = instance.direction_facing
+func place_at_end(pos, dir, rot, place_item):
+	var lastPos
 	while true:
 		match dir:
 			"up":
-				if item_positions.has(placement_pos + Vector3(0, 0, -1)):
-					placement_pos = placement_pos + Vector3(0, 0, -1)
+				if items_in_world.has(pos + Vector3(0, 0, -1)):
+					var item = items_in_world[pos + Vector3(0, 0, -1)]
+					if item["name"] == "conveyor":
+						if item["instance"].direction_facing == dir:
+							pos += Vector3(0, 0, -1)
+						else:
+							lastPos = pos
+					else:
+						lastPos = pos
 				else:
-					last_pos = placement_pos + Vector3(0, 0, -1)
+					lastPos = pos + Vector3(0, 0, -1)
 			"down":
-				if item_positions.has(placement_pos + Vector3(0, 0, 1)):
-					placement_pos = placement_pos + Vector3(0, 0, 1)
+				if items_in_world.has(pos + Vector3(0, 0, 1)):
+					var item = items_in_world[pos + Vector3(0, 0, 1)]
+					if item["name"] == "conveyor":
+						if item["instance"].direction_facing == dir:
+							pos += Vector3(0, 0, 1)
+						else:
+							lastPos = pos
+					else:
+						lastPos = pos
 				else:
-					last_pos = placement_pos + Vector3(0, 0, 1)
+					lastPos = pos + Vector3(0, 0, 1)
 			"left":
-				if item_positions.has(placement_pos + Vector3(-1, 0, 0)):
-					placement_pos = placement_pos + Vector3(-1, 0, 0)
+				if items_in_world.has(pos + Vector3(-1, 0, 0)):
+					var item = items_in_world[pos + Vector3(-1, 0, 0)]
+					if item["name"] == "conveyor":
+						if item["instance"].direction_facing == dir:
+							pos += Vector3(-1, 0, 0)
+						else:
+							lastPos = pos
+					else:
+						lastPos = pos
 				else:
-					last_pos = placement_pos + Vector3(-1, 0, 0)
+					lastPos = pos + Vector3(-1, 0, 0)
 			"right":
-				if item_positions.has(placement_pos + Vector3(1, 0, 0)):
-					placement_pos = placement_pos + Vector3(1, 0, 0)
+				if items_in_world.has(pos + Vector3(1, 0, 0)):
+					var item = items_in_world[pos + Vector3(1, 0, 0)]
+					if item["name"] == "conveyor":
+						if item["instance"].direction_facing == dir:
+							pos += Vector3(1, 0, 0)
+						else:
+							lastPos = pos
+					else:
+						lastPos = pos
 				else:
-					last_pos = placement_pos + Vector3(1, 0, 0)
-		if last_pos != null:
+					lastPos = pos + Vector3(1, 0, 0)
+		if lastPos != null:
 			break
-	return last_pos
+	print(lastPos)
+	create_instance(lastPos, rot, place_item)
+
+
+func create_instance(pos, rot, place_item):
+	var instance = itemscenes[place_item].instantiate()
+	instance.get_node("Pivot").rotation_degrees = rot
+	instance.position = pos
+	get_node("../Items").add_child(instance)
+	if items_in_world.has(pos):
+		remove(pos)
+	items_in_world[pos] = {"name": place_item, "instance": instance}
+	return instance

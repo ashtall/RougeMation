@@ -23,7 +23,7 @@ shape = SubResource("ConvexPolygonShape3D_qwv1s")
 transform = Transform3D(0.99863, 0.0264838, -0.0451405, 0, 0.862514, 0.506034, 0.052336, -0.50534, 0.861331, 0, 10.447, 16.143)
 projection = 1
 fov = 32.7101
-size = 4.983
+size = 15.212
 
 [node name="Pivot" type="Node3D" parent="."]
 

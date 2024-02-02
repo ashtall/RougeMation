@@ -1,4 +1,5 @@
-res://Scripts/conveyor/conveyor.gd
+res://Scripts/player/player.gd
+res://Scripts/resources/item_resource.gd
 res://Scenes/test.tscn
 res://Resources/item_meshes.tres
 res://Scenes/player.tscn
@@ -6,4 +7,5 @@ res://Scenes/conveyor.tscn
 res://Scenes/extractor.tscn
 res://Scenes/extractor_mesh.tscn
 res://Scenes/conveyor_mesh.tscn
-res://Scripts/player/player.gd
+res://Scripts/autoloads/autoload.gd
+res://Scripts/player/inventory.gd

@@ -8,7 +8,7 @@ extends CharacterBody3D
 @export var speed = 6
 @export var rotation_speed = 10
 @export var place_cooldown = .1
-
+var direction_facing
 var items_in_world = Autoload.items_in_world
 
 var target_velocity = Vector3.ZERO
@@ -16,6 +16,7 @@ var target_rotation: Transform3D
 var placement_mesh_instance
 var can_place = true
 
+var place_rot
 
 func _ready():
 	placement_mesh_instance = placement_preview_mesh.instantiate()
@@ -46,6 +47,7 @@ func _physics_process(_delta):
 
 
 func _process(_delta):
+	direction_facing = Autoload.get_direction_facing(get_node("Pivot").rotation_degrees)
 	if Input.is_action_pressed("remove"):
 		remove(placement_mesh_instance.placement_pos)
 	if Input.is_action_pressed("place") and can_place:
@@ -73,31 +75,31 @@ func place(place_item):
 			var item = items_in_world[pos]
 			if item["name"] == "conveyor" and place_item == "conveyor":
 				if item["instance"].direction_facing == dir:
-					print("end")
-					print(pos, dir, rot, place_item)
-					place_at_end(pos, dir, rot, place_item)
+					var lastPos = get_last_pos(pos, dir)
+					if lastPos.y != -1:
+						create_instance(lastPos, rot, place_item)
+					else:
+						inventory[place_item] += 1
 				else:
-					print("replace1")
+					# to replace conveyor
 					replace_instance(pos, rot, place_item)
 			else:
-				print("replace2")
+				# to replace with not conveyor
 				replace_instance(pos, rot, place_item)
 		else:
-			print("new")
 			create_instance(pos, rot, place_item)
 	await get_tree().create_timer(place_cooldown).timeout
 	can_place = true
 
 
 func replace_instance(pos, rot, place_item):
-	print("replace")
 	var item_name = remove(pos)
 	create_instance(pos, rot, place_item)
 	inventory[item_name] += 1
 	inven.inven_changed.emit()
 
 
-func place_at_end(pos, dir, rot, place_item):
+func get_last_pos(pos, dir):
 	var lastPos
 	while true:
 		match dir:
@@ -108,7 +110,8 @@ func place_at_end(pos, dir, rot, place_item):
 						if item["instance"].direction_facing == dir:
 							pos += Vector3(0, 0, -1)
 						else:
-							lastPos = pos
+							# to not create instance
+							lastPos = Vector3(0, -1, 0)
 					else:
 						lastPos = pos
 				else:
@@ -120,7 +123,7 @@ func place_at_end(pos, dir, rot, place_item):
 						if item["instance"].direction_facing == dir:
 							pos += Vector3(0, 0, 1)
 						else:
-							lastPos = pos
+							lastPos = Vector3(0, -1, 0)
 					else:
 						lastPos = pos
 				else:
@@ -132,7 +135,7 @@ func place_at_end(pos, dir, rot, place_item):
 						if item["instance"].direction_facing == dir:
 							pos += Vector3(-1, 0, 0)
 						else:
-							lastPos = pos
+							lastPos = Vector3(0, -1, 0)
 					else:
 						lastPos = pos
 				else:
@@ -144,15 +147,14 @@ func place_at_end(pos, dir, rot, place_item):
 						if item["instance"].direction_facing == dir:
 							pos += Vector3(1, 0, 0)
 						else:
-							lastPos = pos
+							lastPos = Vector3(0, -1, 0)
 					else:
 						lastPos = pos
 				else:
 					lastPos = pos + Vector3(1, 0, 0)
 		if lastPos != null:
 			break
-	print(lastPos)
-	create_instance(lastPos, rot, place_item)
+	return lastPos
 
 
 func create_instance(pos, rot, place_item):

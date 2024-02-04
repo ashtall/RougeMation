@@ -8,6 +8,7 @@ var real_inven
 var display_inven_dic = {}
 var display_inven_arr = []
 var current_item
+var prev_item
 var item_switch_cooldown = .1
 var can_switch_item = true
 var current_item_index = 0
@@ -21,6 +22,7 @@ func _ready():
 	set_display_inven_dic()
 	inven_changed.connect(set_display_inven_dic)
 	display_item()
+	current_item = get_current_item()
 
 
 func _input(event):
@@ -49,6 +51,7 @@ func switch_item_left():
 		if current_item_index < 0:
 			current_item_index = display_inven_arr.size() - 1
 		display_item()
+		current_item = display_inven_arr[current_item_index]
 
 
 func switch_item_right():
@@ -57,6 +60,7 @@ func switch_item_right():
 		if current_item_index > display_inven_arr.size() - 1:
 			current_item_index = 0
 		display_item()
+		current_item = display_inven_arr[current_item_index]
 
 
 func display_item():
@@ -64,7 +68,7 @@ func display_item():
 		i.queue_free()
 	if display_inven_dic.size() != 0:
 		var item = itemscenes[display_inven_arr[current_item_index]].instantiate()
-		displaypoint.add_child(item)
+		#displaypoint.add_child(item)
 
 
 func get_current_item():

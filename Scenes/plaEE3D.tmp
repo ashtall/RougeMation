@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://trn0eyfxry10"]
+
+[ext_resource type="Script" path="res://Scripts/player/player.gd" id="1_efk3x"]
+[ext_resource type="ArrayMesh" uid="uid://bsqam2jrv7ejq" path="res://models/amongus.vox" id="2_0owne"]
+[ext_resource type="Script" path="res://Scripts/player/inventory.gd" id="3_7662n"]
+[ext_resource type="Resource" uid="uid://dg8t1ckb8rio" path="res://Resources/item_scenes.tres" id="3_javut"]
+[ext_resource type="Resource" uid="uid://dg517xpct3hs3" path="res://Resources/item_meshes.tres" id="3_wee1c"]
+[ext_resource type="Resource" uid="uid://d4gyhrpyb8idv" path="res://Resources/player_inventory.tres" id="4_h6h1d"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qwv1s"]
+points = PackedVector3Array(0.4, 1.6, 0.4, 0.4, 1.6, -0.200039, -0.4, 1.6, 0.4, 0.4, 0, 0.4, -0.4, 1.6, -0.200039, 0.4, 1.49992, -0.300078, -0.4, 0, 0.4, 0.4, 0, -0.300078, -0.4, 1.49992, -0.300078, 0.3, 1, -0.6, -0.4, 0, -0.300078, 0.3, 0.299922, -0.6, -0.300078, 1, -0.6, -0.300078, 0.299922, -0.6)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_efk3x")
+inventory = ExtResource("4_h6h1d")
+itemscenes = ExtResource("3_javut")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.100082)
+shape = SubResource("ConvexPolygonShape3D_qwv1s")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.99863, 0.0264838, -0.0451405, 0, 0.862514, 0.506034, 0.052336, -0.50534, 0.861331, 0, 10.447, 16.143)
+projection = 1
+fov = 32.7101
+size = 15.212
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="Inventory" type="Node3D" parent="Pivot"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.84255, 0)
+script = ExtResource("3_7662n")
+inven = ExtResource("4_h6h1d")
+itemscenes = ExtResource("3_wee1c")
+
+[node name="Display_item" type="Node3D" parent="Pivot/Inventory"]
+
+[node name="mesh" type="MeshInstance3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.100082)
+mesh = ExtResource("2_0owne")
+skeleton = NodePath("../../..")

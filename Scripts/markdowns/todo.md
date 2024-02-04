@@ -14,6 +14,8 @@
 
 - [ ] inventory display
 - [ ] test switching with multiple items
+- [ ] replace conveyor by just rotating it
+- [ ] lerp placement preview
 
 ## future
 

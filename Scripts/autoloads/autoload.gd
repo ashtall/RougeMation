@@ -9,9 +9,13 @@ func get_direction_facing(rot):
 	match int(rot.y):
 		0:
 			return "left"
+		-90:
+			return "up"
 		270:
 			return "up"
 		180:
+			return "right"
+		-180:
 			return "right"
 		90:
 			return "down"
